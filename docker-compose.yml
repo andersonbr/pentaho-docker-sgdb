@@ -1,0 +1,47 @@
+version: '2'
+
+services:
+  pentaho:
+    container_name: pentaho
+    image: andersonbr/pentaho-server-ce:8.2
+    volumes:
+      - ./:/base
+      - ./config/timezone:/etc/timezone
+      - ./config/tz.sh:/etc/profile.d/tz.sh
+      - ./config/jackrabbit/repository.xml:/opt/pentaho/pentaho-server/pentaho-solutions/system/jackrabbit/repository.xml
+      - ./config/hibernate/:/opt/pentaho/pentaho-server/pentaho-solutions/system/hibernate/
+      - ./config/quartz/quartz.properties:/opt/pentaho/pentaho-server/pentaho-solutions/system/quartz/quartz.properties
+      - ./config/tomcat/webapps/pentaho/META-INF/context.xml:/opt/pentaho/pentaho-server/tomcat/webapps/pentaho/META-INF/context.xml
+      - ./config/systemListeners.xml:/opt/pentaho/pentaho-server/pentaho-solutions/system/systemListeners.xml
+      - ./config/applicationContext-spring-security.xml:/opt/pentaho/pentaho-server/pentaho-solutions/system/applicationContext-spring-security.xml
+      - ./config/pentaho.xml:/opt/pentaho/pentaho-server/pentaho-solutions/system/pentaho.xml
+      - ./config/server.properties:/opt/pentaho/pentaho-server/pentaho-solutions/system/server.properties
+      - ./libs/ojdbc8.jar:/opt/pentaho/pentaho-server/tomcat/lib/ojdbc8.jar
+      - ./env.txt:/opt/pentaho/pentaho-server/env.txt
+      - ./start-pentaho.sh:/opt/pentaho/pentaho-server/start-pentaho.sh
+      - ./logs:/opt/pentaho/pentaho-server/tomcat/logs
+      - ./temp:/opt/pentaho/pentaho-server/tomcat/temp
+    ports:
+      - 8080:8080
+    restart: always
+    environment:
+      TYPEDB: mysql
+      TZ: America/Fortaleza
+      COUNTRY: BR
+      LANGUAGE: pt
+    depends_on:
+      - db
+  db:
+    container_name: pentaho_db
+    image: mariadb:5
+    restart: always
+    volumes:
+      - ./:/base
+      - ./data:/var/lib/mysql
+      - ./temp:/schemabase
+      - ./init/entrypoint:/docker-entrypoint-initdb.d/
+    environment:
+      TYPEDB: mysql
+      MYSQL_ROOT_PASSWORD: pentaho
+    ports:
+      - 3306:3306

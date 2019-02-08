@@ -1,0 +1,21 @@
+<Context path="/pentaho" docbase="webapps/pentaho/">
+        <Resource name="jdbc/Hibernate" auth="Container" type="javax.sql.DataSource"
+                factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" initialSize="0" maxActive="20" maxIdle="10" maxWait="10000"
+                username="${db.hibuser}" password="${db.hibpass}" driverClassName="${db.hibdriver}"
+                url="jdbc:${db.hibsgdb}://${db.hibhost}:${db.hibport}/${db.hibdb}" validationQuery="select 1"/>
+
+        <Resource name="jdbc/Audit" auth="Container" type="javax.sql.DataSource"
+                factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" initialSize="0" maxActive="20" maxIdle="10" maxWait="10000"
+                username="${db.hibuser}" password="${db.hibpass}" driverClassName="${db.hibdriver}"
+                url="jdbc:${db.hibsgdb}://${db.hibhost}:${db.hibport}/${db.hibdb}" validationQuery="select 1"/>
+
+        <Resource name="jdbc/Quartz" auth="Container" type="javax.sql.DataSource"
+                factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" initialSize="0" maxActive="20" maxIdle="10" maxWait="10000"
+                username="${db.qtzuser}" password="${db.qtzpass}" driverClassName="${db.qtzdriver}"
+                url="jdbc:${db.qtzsgdb}://${db.qtzhost}:${db.qtzport}/${db.qtzdb}" validationQuery="select 1"/>
+
+        <!-- Resource name="jdbc/Quartz" auth="Container" type="javax.sql.DataSource"
+                factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" initialSize="0" maxActive="20" maxIdle="10" maxWait="10000"
+                username="${db.qtzuser}" password="${db.qtzpass}" driverClassName="${db.qtzdriver}"
+                url="jdbc:${db.qtzsgdb}://${db.qtzhost}:${db.qtzport}/${db.qtzdb}" validationQuery="${db.qtzvq}"/ -->
+</Context>
